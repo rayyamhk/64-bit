@@ -5,7 +5,7 @@
   "main": "dist/base64.js",
   "types": "src/base64.d.js",
   "scripts": {
-    "build": "babel ./src/base64.js -d dist && uglifyjs ./dist/base64.js -c -m -o ./dist/base64.min.js",
+    "build": "babel ./src/base64.js -d dist",
     "test": "jest --watchAll",
     "perf": "node ./src/performance.js"
   },

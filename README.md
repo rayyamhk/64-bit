@@ -10,13 +10,24 @@ This library provides a base64 decoder and encoder for you to manipulate bits in
 - TypeScript supported.
 - Browser compatability: IE6+.
 
+## Usage
+
+### Node.js
+```javascript
+const Base64 = require('base64-bit');
+```
+
+### Browser
+```javascript
+<script src="https://cdn.jsdelivr.net/npm/base64-bit"></script>
+```
+
 ## APIs
 
 ### Decoder
 Decode base64 encoded string to bit stream.
 
 ```javascript
-const Base64 = require('base64-bit');
 const decoder = Base64.Decoder();
 
 // 010101_000110_100001_100111_011100_110010_1110(00)
@@ -48,7 +59,6 @@ Resets the bit position by skipping the first k bits.
 Encode bit stream to base64 format.
 
 ```javascript
-const Base64 = require('base64-bit');
 const encoder = Base64.Encoder();
 
 encoder.push(46, 8); // Appends 00101110.
