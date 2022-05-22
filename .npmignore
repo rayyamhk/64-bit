@@ -1,3 +1,6 @@
 src
+benchmark
+tests
 babel.config.json
+index.js
 .npmignore

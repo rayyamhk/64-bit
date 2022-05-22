@@ -2,12 +2,12 @@
   "name": "base64-bit",
   "version": "1.0.1",
   "description": "A base64 decoder and encoder that allow you to manipulate bits in nanoseconds.",
-  "main": "dist/base64.js",
-  "types": "src/base64.d.js",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "build": "babel ./src/base64.js -d dist",
-    "test": "jest --watchAll",
-    "perf": "node ./src/performance.js"
+    "build": "babel index.js -d dist",
+    "test": "jest --watchAll --roots ./tests",
+    "benchmark": "node ./benchmark/index.js"
   },
   "keywords": [
     "base64",
@@ -17,8 +17,8 @@
     "stream"
   ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/rayyamhk/base64-bit"
+    "type": "git",
+    "url": "https://github.com/rayyamhk/base64-bit"
   },
   "homepage": "https://github.com/rayyamhk/base64-bit#readme",
   "bugs": {
@@ -30,7 +30,7 @@
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
-    "jest": "^28.1.0",
-    "uglify-js": "^3.15.5"
+    "benchmark": "^2.1.4",
+    "jest": "^28.1.0"
   }
 }

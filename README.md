@@ -1,11 +1,11 @@
 # base64-bit
 
-This library provides a base64 decoder and encoder for you to manipulate bits in nanoseconds.
+This library provides a base64 decoder and encoder for you to manipulate bits in **nanoseconds**.
 
 ## Features
 - Decoder allows you to pop bits from the base64 string.
 - Encoder allows you to push bits to form base64 string.
-- Highly optimized, bits manipulation can be done in nanoseconds.
+- Highly optimized, bits manipulation can be done in **nanoseconds**.
 - No dependencies.
 - TypeScript supported.
 - Browser compatability: IE6+.

@@ -1,4 +1,4 @@
-const { Decoder, Encoder } = require('./base64');
+const { Decoder, Encoder } = require('../index');
 
 const decoder = Decoder();
 const encoder = Encoder();
