@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "A base64 decoder and encoder that allow you to manipulate bits in nanoseconds.",
   "main": "dist/base64.js",
-  "types": "lib/base64.d.js",
+  "types": "src/base64.d.js",
   "scripts": {
-    "build": "babel ./lib/base64.js -d dist && uglifyjs ./dist/base64.js -c -m -o ./dist/base64.min.js",
+    "build": "babel ./src/base64.js -d dist && uglifyjs ./dist/base64.js -c -m -o ./dist/base64.min.js",
     "test": "jest --watchAll",
-    "perf": "node ./lib/performance.js"
+    "perf": "node ./src/performance.js"
   },
   "keywords": [
     "base64",
