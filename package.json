@@ -1,16 +1,17 @@
 {
   "name": "base64-bit",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A base64 decoder and encoder that allow you to manipulate bits in nanoseconds.",
   "main": "dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "babel index.js -d dist",
+    "build": "babel index.js -d dist && uglifyjs ./dist/index.js -o ./dist/index.min.js -c -m",
     "test": "jest --watchAll --roots ./tests",
     "benchmark": "node ./benchmark/index.js"
   },
   "files": [
     "dist/index.js",
+    "dist/index.min.js",
     "index.d.ts"
   ],
   "keywords": [
@@ -35,6 +36,7 @@
     "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
     "benchmark": "^2.1.4",
-    "jest": "^28.1.0"
+    "jest": "^28.1.0",
+    "uglify-js": "^3.15.5"
   }
 }

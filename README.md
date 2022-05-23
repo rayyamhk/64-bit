@@ -19,13 +19,14 @@ const Base64 = require('base64-bit');
 
 ### Browser
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/base64-bit"></script>
+<script src="https://cdn.jsdelivr.net/npm/base64-bit/dist/index.min.js"></script>
+<script src="/path/to/node_modules/base64-bit/dist/index.min.js"></script>
 ```
 
 ## APIs
 
 ### Decoder
-Decode base64 encoded string to bit stream.
+Decodes base64 encoded string to bit stream.
 
 ```javascript
 const decoder = Base64.Decoder();
@@ -56,7 +57,7 @@ Extracts the next k bits and converts it to decimal, k should be at most 32.
 Resets the bit position by skipping the first k bits.
 
 ### Encoder
-Encode bit stream to base64 format.
+Encodes bit stream to base64 format.
 
 ```javascript
 const encoder = Base64.Encoder();
@@ -73,7 +74,27 @@ const encoded = encoder.flush(); // LgAuI===
 ```
 
 #### encoder.push(binary, k = 8)
-Convert an integer to k-bit unsigned binary, and appends it to the end of the bit stream.
+Converts an integer to k-bit unsigned binary, and appends it to the end of the bit stream.
 
 #### encoder.flush()
 Encodes the bit stream to base64 format, and resets the encoder.
+
+## Performance
+```
+npm run benchmark
+
+Encoder push 32 bits x 10,897,169 ops/sec ±0.10% (96 runs sampled)
+Decoder pop 32 bits x 8,507,041 ops/sec ±0.11% (94 runs sampled)
+```
+
+## Build
+The following command creates a babel compiled file and a minified file in `./dist` directory.
+```
+npm run build
+```
+
+## Test
+The following command runs all tests in `./tests` directory.
+```
+npm run test
+```
