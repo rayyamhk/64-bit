@@ -8,6 +8,7 @@ This library provides a base64 decoder and encoder for you to manipulate bits in
 - Highly optimized, bits manipulation can be done in **nanoseconds**.
 - No dependencies.
 - TypeScript supported.
+- Well-tested.
 - Browser compatability: IE6+.
 
 ## Usage
@@ -82,10 +83,17 @@ Encodes the bit stream to base64 format, and resets the encoder.
 ## Performance
 ```
 npm run benchmark
-
-Encoder push 32 bits x 10,897,169 ops/sec ±0.10% (96 runs sampled)
-Decoder pop 32 bits x 8,507,041 ops/sec ±0.11% (94 runs sampled)
 ```
+| Operation  | Benchmark (ops/sec)  | Time (ns/ops)  |
+| :------------: | ------------: | ------------: |
+| Push 1 bit   | 104,024,425  | 9.61  |
+| Pop 1 bit     | 56,600,268  | 17.67  |
+| Push 8 bits  | 63,205,455  | 15.82  |
+| Pop 8 bits   | 37,587,809  |  26.60 |
+| Push 16 bits | 37,175,659  | 26.90  |
+| Pop 16 bits  | 27,654,909 | 36.16  |
+| Push 32 bits | 16,731,808 | 57.77  |
+| Pop 32 bits  | 15,047,919 | 66.45  |
 
 ## Build
 The following command creates a babel compiled file and a minified file in `./dist` directory.
@@ -98,3 +106,7 @@ The following command runs all tests in `./tests` directory.
 ```
 npm run test
 ```
+
+## Release
+### 1.1.0
+Optimize the implementation to achieve around 2x performance improvement.

@@ -38,7 +38,47 @@ describe('base64', () => {
      * 010101 000110 100001 100111 011100 110010 1110(00)
      */
     const input = 'VGhncy4=';
-    test('sequential pop', () => {
+    test('sequential pop: 1-bit', () => {
+      decoder.from(input);
+      expect(decoder.pop(1)).toBe(0);
+      expect(decoder.pop(1)).toBe(1);
+      expect(decoder.pop(1)).toBe(0);
+      expect(decoder.pop(1)).toBe(1);
+      expect(decoder.pop(1)).toBe(0);
+      expect(decoder.pop(1)).toBe(1);
+      decoder.offset(24);
+      expect(decoder.pop(1)).toBe(0);
+      expect(decoder.pop(1)).toBe(1);
+      expect(decoder.pop(1)).toBe(1);
+      expect(decoder.pop(1)).toBe(1);
+      expect(decoder.pop(1)).toBe(0);
+    });
+
+    test('sequential pop: 3-bit', () => {
+      decoder.from(input);
+      decoder.offset(12);
+      expect(decoder.pop(3)).toBe(4);
+      expect(decoder.pop(3)).toBe(1);
+      expect(decoder.pop(3)).toBe(4);
+      expect(decoder.pop(3)).toBe(7);
+      expect(decoder.pop(3)).toBe(3);
+      expect(decoder.pop(3)).toBe(4);
+      decoder.offset(24);
+      expect(decoder.pop(3)).toBe(3);
+      expect(decoder.pop(3)).toBe(4);
+      expect(decoder.pop(3)).toBe(6);
+      expect(decoder.pop(3)).toBe(2);
+      expect(decoder.pop(3)).toBe(7);
+    });
+
+    test('sequential pop: 8-bit', () => {
+      decoder.from(input);
+      expect(decoder.pop(8)).toBe(84);
+      expect(decoder.pop(8)).toBe(104);
+      expect(decoder.pop(8)).toBe(103);
+    });
+
+    test('sequential pop: mixed bits', () => {
       decoder.from(input);
       expect(decoder.pop(1)).toBe(0);
       expect(decoder.pop(1)).toBe(1);
@@ -53,7 +93,7 @@ describe('base64', () => {
       expect(decoder.pop(10)).toBe(null);
     });
 
-    test('sequential pop 2', () => {
+    test('sequential pop: mixed bits 2', () => {
       decoder.from(input);
       expect(decoder.pop(8)).toBe(84);
       expect(decoder.pop(32)).toBe(1751610158);

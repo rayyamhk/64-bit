@@ -31,9 +31,16 @@ const Base64 = (function() {
         throw new Error('Invalid bit size.');
       }
       while (k > 0) {
-        k -= 1;
-        place -= 1;
-        value += ((binary & (1 << k)) >> k) << place;
+        if (k >= place) {
+          value += (binary & ((1 << k) - 1)) >> (k - place);
+          k -= place;
+          place = 0;
+        } else {
+          value += (binary & ((1 << k) - 1)) << (place - k);
+          place -= k;
+          k = 0;
+        }
+
         if (place === 0) {
           encoded += symbols[value];
           place = 6;
@@ -81,7 +88,7 @@ const Base64 = (function() {
         input = '',
         padding = 0, // the number of bits that is used as padding.
         pos = 0, // current symbol position.
-        redisual = 6; // the number of available bits in the current symbol.
+        residual = 6; // the number of available bits in the current symbol.
 
     /**
      * Loads a base64 encoded string to the decoder, and replaces the existing one.
@@ -103,7 +110,7 @@ const Base64 = (function() {
       availableBits = base64.length * 6 - padding;
       input = base64;
       pos = 0;
-      redisual = 6;
+      residual = 6;
     }
 
     /**
@@ -124,14 +131,21 @@ const Base64 = (function() {
       }
       k = Math.min(k, availableBits);
       while (k > 0) {
-        availableBits -= 1;
-        redisual -= 1;
-        k -= 1;
-        bits += ((value & (1 << redisual)) >> redisual) << k;
+        if (k >= residual) {
+          bits += (value & ((1 << residual) - 1)) << (k - residual);
+          k -= residual;
+          availableBits -= residual;
+          residual = 0;
+        } else {
+          bits += (value & ((1 << residual) - 1)) >> (residual - k);
+          availableBits -= k;
+          residual -= k;
+          k = 0;
+        }
         if (availableBits === 0) {
           break;
-        } else if (redisual === 0) {
-          redisual = 6;
+        } else if (residual === 0) {
+          residual = 6;
           pos += 1;
           value = dict[input.charAt(pos)];
         }
@@ -148,8 +162,8 @@ const Base64 = (function() {
         k = 0;
       }
       pos = Math.floor(k / 6);
-      redisual = 6 - k % 6;
-      availableBits = redisual + (input.length - 1 - pos) * 6 - padding;
+      residual = 6 - k % 6;
+      availableBits = residual + (input.length - 1 - pos) * 6 - padding;
     };
   
     return {

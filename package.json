@@ -1,6 +1,6 @@
 {
   "name": "base64-bit",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A base64 decoder and encoder that allow you to manipulate bits in nanoseconds.",
   "main": "dist/index.js",
   "types": "index.d.ts",
