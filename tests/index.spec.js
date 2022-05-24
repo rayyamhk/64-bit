@@ -78,6 +78,21 @@ describe('base64', () => {
       expect(decoder.pop(8)).toBe(103);
     });
 
+    test('sequential pop: 32-bit', () => {
+      decoder.from('VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=');
+      expect(decoder.pop(32)).toBe(1416127776);
+      expect(decoder.pop(32)).toBe(1903520099);
+      expect(decoder.pop(32)).toBe(1797284466);
+      expect(decoder.pop(32)).toBe(1870097952);
+      expect(decoder.pop(32)).toBe(1718581280);
+      expect(decoder.pop(32)).toBe(1786080624);
+      expect(decoder.pop(32)).toBe(1931505526);
+      expect(decoder.pop(32)).toBe(1701978161);
+      expect(decoder.pop(32)).toBe(857762913);
+      expect(decoder.pop(32)).toBe(2054758500);
+      expect(decoder.pop(32)).toBe(1869050670);
+    });
+
     test('sequential pop: mixed bits', () => {
       decoder.from(input);
       expect(decoder.pop(1)).toBe(0);
@@ -149,29 +164,29 @@ describe('base64', () => {
      * 01010100 01101000 01100111 01110011 00101110
      */
     test('sequential push: 8-bit', () => {
-      encoder.push(84);
+      encoder.push(84, 8);
       expect(encoder.flush()).toBe('VA==');
 
-      encoder.push(84);
-      encoder.push(104);
+      encoder.push(84, 8);
+      encoder.push(104, 8);
       expect(encoder.flush()).toBe('VGg=');
 
-      encoder.push(84);
-      encoder.push(104);
-      encoder.push(103);
+      encoder.push(84, 8);
+      encoder.push(104, 8);
+      encoder.push(103, 8);
       expect(encoder.flush()).toBe('VGhn');
 
-      encoder.push(84);
-      encoder.push(104);
-      encoder.push(103);
-      encoder.push(115);
+      encoder.push(84, 8);
+      encoder.push(104, 8);
+      encoder.push(103, 8);
+      encoder.push(115, 8);
       expect(encoder.flush()).toBe('VGhncw==');
 
-      encoder.push(84);
-      encoder.push(104);
-      encoder.push(103);
-      encoder.push(115);
-      encoder.push(46);
+      encoder.push(84, 8);
+      encoder.push(104, 8);
+      encoder.push(103, 8);
+      encoder.push(115, 8);
+      encoder.push(46, 8);
       expect(encoder.flush()).toBe('VGhncy4=');
     });
 
@@ -224,6 +239,21 @@ describe('base64', () => {
       encoder.push(1, 1);
       encoder.push(1, 1); // 110101 1(00000) -> 53 32 -> 1g
       expect(encoder.flush()).toBe('1g==');
+    });
+
+    test('sequential push: 32-bit', () => {
+      encoder.push(1416127776, 32);
+      encoder.push(1903520099, 32);
+      encoder.push(1797284466, 32);
+      encoder.push(1870097952, 32);
+      encoder.push(1718581280, 32);
+      encoder.push(1786080624, 32);
+      encoder.push(1931505526, 32);
+      encoder.push(1701978161, 32);
+      encoder.push(857762913, 32);
+      encoder.push(2054758500, 32);
+      encoder.push(1869050670, 32);
+      expect(encoder.flush()).toBe('VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIDEzIGxhenkgZG9ncy4=');
     });
 
     test('sequential push: mixed bits', () => {

@@ -5,6 +5,15 @@ const Base64 = (function() {
     dict[symbols[i]] = i;
   }
 
+  const mask32 = 2 ** 32 - 1;
+  function mask(k) {
+    if (k <= 31) {
+      return ((1 << k) >>> 0) - 1;
+    } else {
+      return mask32;
+    }
+  }
+
   function Encoder() {
     let encoded = '',
         place = 6,
@@ -18,33 +27,28 @@ const Base64 = (function() {
      * 2. push(33, 8): appends '00100001' to the stream.
      * 
      * @param {number} binary Unsigned binary in decimal.
-     * @param {number} k Number of bits.
+     * @param {number} k Number of bits, at most 32.
      */
     function push(binary, k) {
       if (binary < 0) {
         throw new Error('Binary must be unsigned.');
       }
       if (k === undefined) {
-        k = 8
+        k = 8;
       }
-      if (binary >= 2 ** k) {
+      if (binary > mask(k)) {
         throw new Error('Invalid bit size.');
       }
       while (k > 0) {
         if (k >= place) {
-          value += (binary & ((1 << k) - 1)) >> (k - place);
+          encoded += symbols[value | (binary & mask(k)) >> (k - place)];
           k -= place;
-          place = 0;
-        } else {
-          value += (binary & ((1 << k) - 1)) << (place - k);
-          place -= k;
-          k = 0;
-        }
-
-        if (place === 0) {
-          encoded += symbols[value];
           place = 6;
           value = 0;
+        } else {
+          place -= k;
+          value |= (binary & mask(k)) << place;
+          break;
         }
       }
     };
@@ -130,24 +134,21 @@ const Base64 = (function() {
         throw new Error('Encounter invalid base64 symbol.');
       }
       k = Math.min(k, availableBits);
+      availableBits -= k;
       while (k > 0) {
         if (k >= residual) {
-          bits += (value & ((1 << residual) - 1)) << (k - residual);
           k -= residual;
-          availableBits -= residual;
-          residual = 0;
+          bits |= (value & ((1 << residual) - 1)) << k;
+
+          if (pos < input.length - 1) {
+            residual = 6;
+            pos += 1;
+            value = dict[input.charAt(pos)];
+          }
         } else {
-          bits += (value & ((1 << residual) - 1)) >> (residual - k);
-          availableBits -= k;
+          bits |= (value & ((1 << residual) - 1)) >> (residual - k);
           residual -= k;
-          k = 0;
-        }
-        if (availableBits === 0) {
           break;
-        } else if (residual === 0) {
-          residual = 6;
-          pos += 1;
-          value = dict[input.charAt(pos)];
         }
       }
       return bits;

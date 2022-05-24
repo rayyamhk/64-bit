@@ -31,6 +31,14 @@ suite
     decoder.pop(8);
     decoder.offset(0);
   })
+  .add('Encoder push 6 bits', () => {
+    encoder.push(32, 6);
+    encoder.flush();
+  })
+  .add('Decoder pop 6 bits', () => {
+    decoder.pop(6);
+    decoder.offset(0);
+  })
   .add('Encoder push 1 bits', () => {
     encoder.push(1, 1);
     encoder.flush();

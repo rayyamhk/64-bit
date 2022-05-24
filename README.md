@@ -75,7 +75,7 @@ const encoded = encoder.flush(); // LgAuI===
 ```
 
 #### encoder.push(binary, k = 8)
-Converts an integer to k-bit unsigned binary, and appends it to the end of the bit stream.
+Converts an integer to k-bit unsigned binary, and appends it to the end of the bit stream. k should be at most 32.
 
 #### encoder.flush()
 Encodes the bit stream to base64 format, and resets the encoder.
@@ -86,14 +86,14 @@ npm run benchmark
 ```
 | Operation  | Benchmark (ops/sec)  | Time (ns/ops)  |
 | :------------: | ------------: | ------------: |
-| Push 1 bit   | 104,024,425  | 9.61  |
-| Pop 1 bit     | 56,600,268  | 17.67  |
-| Push 8 bits  | 63,205,455  | 15.82  |
-| Pop 8 bits   | 37,587,809  |  26.60 |
-| Push 16 bits | 37,175,659  | 26.90  |
-| Pop 16 bits  | 27,654,909 | 36.16  |
-| Push 32 bits | 16,731,808 | 57.77  |
-| Pop 32 bits  | 15,047,919 | 66.45  |
+| Push 1 bit   | 105,069,508  | 9.52  |
+| Pop 1 bit     | 62,699,807  | 15.95  |
+| Push 8 bits  | 64,279,504  | 15.56  |
+| Pop 8 bits   | 40,743,087  |  24.54 |
+| Push 16 bits | 36,436,695  | 27.44  |
+| Pop 16 bits  | 30,037,712 | 33.29  |
+| Push 32 bits | 17,044,324 | 58.67  |
+| Pop 32 bits  | 15,764,883 | 63.43  |
 
 ## Build
 The following command creates a babel compiled file and a minified file in `./dist` directory.
