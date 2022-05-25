@@ -32,7 +32,7 @@ Decodes base64 encoded string to bit stream.
 ```javascript
 const decoder = Base64.Decoder();
 
-// 010101_000110_100001_100111_011100_110010_1110(00)
+// 010101_000110_100001_100111_011100_110010_111000
 decoder.from('VGhncy4=');
 
 // Extracts the first 8 bits (01010100)
@@ -40,6 +40,9 @@ decoder.pop(8); // 84
 
 // Extracts the next 32 bits (01101000 01100111 01110011 00101110)
 decoder.pop(32); // 1751610158
+
+// Extracts the last 2 bits (00)
+decoder.pop(2); // 0
 
 decoder.pop(1); // null as no more available bits.
 
