@@ -97,8 +97,9 @@ const Base64 = (function() {
     /**
      * Loads a base64 encoded string to the decoder, and replaces the existing one.
      * @param {string} base64 Base64 encoded string.
+     * @param {number} bits Total number of bits encoded in base64.
      */
-    function from(base64) {
+    function from(base64, bits) {
       if (typeof base64 !== 'string' || base64.length % 4 !== 0) {
         throw new Error('Invalid base64 input.');
       }
@@ -106,10 +107,14 @@ const Base64 = (function() {
       if (match) {
         base64 = base64.slice(0, match.index);
       }
-      padding = (base64.length * 6) % 8; // 0, 2, 4, 6
-      if (padding === 6) {
-        base64 = base64.slice(0, -1);
-        padding = 0;
+      if (bits === undefined) {
+        padding = (base64.length * 6) % 8; // 0, 2, 4, 6
+        if (padding === 6) {
+          base64 = base64.slice(0, -1);
+          padding = 0;
+        }
+      } else {
+        padding = base64.length * 6 - bits;
       }
       availableBits = base64.length * 6 - padding;
       input = base64;

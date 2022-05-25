@@ -282,4 +282,28 @@ describe('base64', () => {
       expect(() => encoder.push(255, 4)).toThrow('Invalid bit size.');
     });
   });
+
+  describe('push then pop', () => {
+    test('push then pop 1', () => {
+      encoder.push(0, 2);
+      encoder.push(97, 8);
+      encoder.push(1, 2);
+      encoder.push(1234, 16);
+      encoder.push(2, 2);
+      encoder.push(14, 16);
+      decoder.from(encoder.flush(), 46);
+      expect(decoder.pop(2)).toBe(0);
+      expect(decoder.pop(8)).toBe(97);
+      expect(decoder.pop(2)).toBe(1);
+      expect(decoder.pop(16)).toBe(1234);
+      expect(decoder.pop(2)).toBe(2);
+      expect(decoder.pop(16)).toBe(14);
+    });
+
+    test('push then pop 2', () => {
+      encoder.push(0, 1);
+      decoder.from(encoder.flush(), 1);
+      expect(decoder.pop(1)).toBe(0);
+    })
+  })
 });
