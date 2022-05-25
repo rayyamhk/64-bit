@@ -6,36 +6,9 @@ const encoder = Encoder();
 describe('base64', () => {
 
   describe('Base64Decoder', () => {
-
-    describe('decode base64', () => {
-      test('Good Morning!', () => {
-        const chars = 'Good morning!'.split('');
-        decoder.from('R29vZCBtb3JuaW5nIQ==');
-        while (true) {
-          const byte = decoder.pop(8);
-          if (byte === null) {
-            break;
-          }
-          expect(String.fromCharCode(byte)).toBe(chars.shift());
-        }
-      });
-
-      test('Hello World.', () => {
-        const chars = 'Hello World.'.split('');
-        decoder.from('SGVsbG8gV29ybGQu');
-        while (true) {
-          const byte = decoder.pop(8);
-          if (byte === null) {
-            break;
-          }
-          expect(String.fromCharCode(byte)).toBe(chars.shift())
-        }
-      });
-    });
-
     /**
      * V      G      h      n      c      y      4
-     * 010101 000110 100001 100111 011100 110010 1110(00)
+     * 010101 000110 100001 100111 011100 110010 111000
      */
     const input = 'VGhncy4=';
     test('sequential pop: 1-bit', () => {
@@ -104,7 +77,7 @@ describe('base64', () => {
       expect(decoder.pop(6)).toBe(25);
       expect(decoder.pop(7)).toBe(110);
       expect(decoder.pop(8)).toBe(101);
-      expect(decoder.pop(9)).toBe(6);
+      expect(decoder.pop(9)).toBe(24);
       expect(decoder.pop(10)).toBe(null);
     });
 
@@ -112,6 +85,8 @@ describe('base64', () => {
       decoder.from(input);
       expect(decoder.pop(8)).toBe(84);
       expect(decoder.pop(32)).toBe(1751610158);
+      expect(decoder.pop(1)).toBe(0);
+      expect(decoder.pop(1)).toBe(0);
       expect(decoder.pop(1)).toBe(null);
       decoder.offset(6);
       expect(decoder.pop(6)).toBe(6);
@@ -138,7 +113,7 @@ describe('base64', () => {
     test('pop overflow', () => {
       decoder.from(input);
       decoder.offset(15);
-      expect(decoder.pop(100000)).toBe(6779694);
+      expect(decoder.pop(100000)).toBe(27118776);
     });
 
     test('offset overflow', () => {
@@ -291,7 +266,7 @@ describe('base64', () => {
       encoder.push(1234, 16);
       encoder.push(2, 2);
       encoder.push(14, 16);
-      decoder.from(encoder.flush(), 46);
+      decoder.from(encoder.flush());
       expect(decoder.pop(2)).toBe(0);
       expect(decoder.pop(8)).toBe(97);
       expect(decoder.pop(2)).toBe(1);
@@ -302,7 +277,7 @@ describe('base64', () => {
 
     test('push then pop 2', () => {
       encoder.push(0, 1);
-      decoder.from(encoder.flush(), 1);
+      decoder.from(encoder.flush());
       expect(decoder.pop(1)).toBe(0);
     })
   })

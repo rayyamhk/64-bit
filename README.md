@@ -48,10 +48,10 @@ decoder.offset(6);
 decoder.pop(6); // 6
 ```
 
-#### decoder.from(base64, bits)
-Loads a base64 encoded string to the decoder, and specifies the number of valid bits encoded in base64.
+#### decoder.from(base64)
+Loads a base64 encoded string to the decoder, and replaces the existing one.
 
-*Remark:* Since base64 is a 6-bit encoding, if the number of bits encoded is not a multiple of 6, 0s are appended at the end of the bit stream. It is very likely that the total bits you pushed is less than `base64.length * 6`. Therefore, you are suggested to specify the total number of valid bits encoded, otherwise you may pop unnecessary bits.
+*Remark:* Since base64 is a 6-bit encoding, if the number of bits encoded is not a multiple of 6, 0s are padded at the end of the bit stream. It is very likely that the total bits you pushed is less than `base64.length * 6`. Therefore, you are recommended to push a preserved bits to indicate the end of the stream, otherwise you may pop unnecessary bits.
 
 #### decoder.pop(k = 8)
 Extracts the next k bits and converts it to decimal, k should be at most 32.
@@ -112,6 +112,3 @@ npm run test
 ## Release
 ### 1.1.0
 Optimize the implementation to achieve around 2x performance improvement.
-
-### 1.2.0
-Specify the number of valid bits encoded in base64 to avoid popping unnecessary bits.

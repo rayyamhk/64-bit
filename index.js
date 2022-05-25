@@ -90,16 +90,14 @@ const Base64 = (function() {
   function Decoder() {
     let availableBits = 0, // the number of available bits for the input.
         input = '',
-        padding = 0, // the number of bits that is used as padding.
         pos = 0, // current symbol position.
         residual = 6; // the number of available bits in the current symbol.
 
     /**
      * Loads a base64 encoded string to the decoder, and replaces the existing one.
      * @param {string} base64 Base64 encoded string.
-     * @param {number} bits Total number of bits encoded in base64.
      */
-    function from(base64, bits) {
+    function from(base64) {
       if (typeof base64 !== 'string' || base64.length % 4 !== 0) {
         throw new Error('Invalid base64 input.');
       }
@@ -107,16 +105,7 @@ const Base64 = (function() {
       if (match) {
         base64 = base64.slice(0, match.index);
       }
-      if (bits === undefined) {
-        padding = (base64.length * 6) % 8; // 0, 2, 4, 6
-        if (padding === 6) {
-          base64 = base64.slice(0, -1);
-          padding = 0;
-        }
-      } else {
-        padding = base64.length * 6 - bits;
-      }
-      availableBits = base64.length * 6 - padding;
+      availableBits = base64.length * 6;
       input = base64;
       pos = 0;
       residual = 6;
@@ -134,7 +123,7 @@ const Base64 = (function() {
       if (k === undefined) {
         k = 8;
       }
-      var bits = 0, value = dict[input.charAt(pos)];
+      let bits = 0, value = dict[input.charAt(pos)];
       if (typeof value !== 'number') {
         throw new Error('Encounter invalid base64 symbol.');
       }
@@ -169,7 +158,7 @@ const Base64 = (function() {
       }
       pos = Math.floor(k / 6);
       residual = 6 - k % 6;
-      availableBits = residual + (input.length - 1 - pos) * 6 - padding;
+      availableBits = residual + (input.length - 1 - pos) * 6;
     };
   
     return {
