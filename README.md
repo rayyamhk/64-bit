@@ -13,15 +13,22 @@ This library provides a base64 decoder and encoder for you to manipulate bits in
 
 ## Usage
 
-### Node.js
+### CommonJS
 ```javascript
-const Base64 = require('base64-bit');
+const { Decoder, Encoder } = require('base64-bit');
+```
+
+### ES Module
+```javascript
+import { Decoder, Encoder } from 'base64-bit';
 ```
 
 ### Browser
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/base64-bit/dist/index.min.js"></script>
-<script src="/path/to/node_modules/base64-bit/dist/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/base64-bit/dist/index.min.js"></script> // From CDN
+<script src="/path/to/node_modules/base64-bit/dist/index.min.js"></script> // From node_modules
+const decoder = Base64.Decoder();
+const encoder = Base64.Encoder();
 ```
 
 ## APIs
@@ -30,7 +37,7 @@ const Base64 = require('base64-bit');
 Decodes base64 encoded string to bit stream.
 
 ```javascript
-const decoder = Base64.Decoder();
+const decoder = Decoder();
 
 // 010101_000110_100001_100111_011100_110010_111000
 decoder.from('VGhncy4=');
@@ -66,7 +73,7 @@ Resets the bit position by skipping the first k bits.
 Encodes bit stream to base64 format.
 
 ```javascript
-const encoder = Base64.Encoder();
+const encoder = Encoder();
 
 encoder.push(46, 8); // Appends 00101110.
 encoder.push(46, 16); // Appends 00000000_00101110.
@@ -101,7 +108,7 @@ npm run benchmark
 | Pop 32 bits  | 15,764,883 | 63.43  |
 
 ## Build
-The following command creates a babel compiled file and a minified file in `./dist` directory.
+The following command creates `index.cjs`, `index.mjs` and `index.min.js` in `./dist` directory.
 ```
 npm run build
 ```
@@ -115,3 +122,5 @@ npm run test
 ## Release
 ### 1.1.0
 Optimize the implementation to achieve around 2x performance improvement.
+### 1.3.0
+Support ES module.

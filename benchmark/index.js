@@ -1,9 +1,9 @@
-const Benchmark = require('benchmark');
-const Base64 = require('../index');
+import Benchmark from 'benchmark';
+import { Encoder, Decoder } from '../index.js';
 
 const suite = new Benchmark.Suite;
-const encoder = Base64.Encoder();
-const decoder = Base64.Decoder();
+const encoder = Encoder();
+const decoder = Decoder();
 decoder.from('abcdefghijklmnopqrstuvwxyz==');
 
 suite

@@ -1,4 +1,4 @@
-const { Decoder, Encoder } = require('../index');
+import { Decoder, Encoder } from '..';
 
 const decoder = Decoder();
 const encoder = Encoder();
